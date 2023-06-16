@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    font-size: 62.5%;
+}
+:root {
+    --background: #2C3333;
+    --backgroun-game: #2E4F4F;
+    --buttons: #0E8388;
+}
+
+body {
+    background-color: var(--background);
+    font-family: 'Montserrat', sans-serif;
+}
+.game-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.game {
+    background-color: var(--backgroun-game);
+    border-radius: 5px;
+    margin: 10px;
+}
+.buttons {
+    margin: 10px;
+}
+button {
+    background-color: var(--buttons);
+    margin: 10px;
+    border: none;
+    padding: 5px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+}
+.messages {
+    width: 150px;
+    height: auto;
+    font-size: 2rem;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.messages p {
+    margin: 5px;
+}
