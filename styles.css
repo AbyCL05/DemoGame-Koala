@@ -8,7 +8,7 @@ html {
 }
 :root {
     --background: #2C3333;
-    --backgroun-game: #2E4F4F;
+    --background-game: #2E4F4F;
     --buttons: #0E8388;
 }
 
@@ -23,11 +23,12 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 30px;
 }
-.game {
-    background-color: var(--backgroun-game);
+.game-container #game {
     border-radius: 5px;
     margin: 10px;
+    background-color: var(--background-game);
 }
 .buttons {
     margin: 10px;
