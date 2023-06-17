@@ -1,12 +1,13 @@
 const canvas = document.querySelector("#game")
 const contextoCanvas = canvas.getContext('2d')
 
-window.addEventListener('load', startGame)
+let canvasSize 
+let elementsSize
 
+window.addEventListener('load', setCanvasSize)
+window.addEventListener('resize', setCanvasSize)
 
-function startGame () {
-    //Tamaño del canvas responsivo
-    let canvasSize 
+function setCanvasSize () {
     if(window.innerHeight > window.innerWidth) {
         canvasSize = window.innerWidth *  0.8 
     } else {
@@ -16,8 +17,11 @@ function startGame () {
     canvas.setAttribute('width', canvasSize)
     canvas.setAttribute('height', canvasSize)
 
-    // Tamaño de los elementos del canvas respecto al tamaño de este
-    const elementsSize = canvasSize / 10
+     elementsSize = canvasSize / 10
+     startGame()
+}
+
+function startGame () {
     contextoCanvas.font = elementsSize + 'px Verdana' 
     contextoCanvas.textAlign = 'end'
 
