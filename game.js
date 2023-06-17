@@ -26,6 +26,8 @@ function startGame () {
     contextoCanvas.textAlign = 'end'
 
     for (let i = 1; i <= 10; i++) {
-        contextoCanvas.fillText(emojis['X'], elementsSize * i , elementsSize);
+        for (let z = 1; z <= 10; z++) {
+            contextoCanvas.fillText(emojis['X'], elementsSize * i , elementsSize * z);   
+        }
     }
 }
