@@ -1,5 +1,19 @@
-const canvas = document.querySelector("#game")
+const canvas = document.querySelector('#game')
 const contextoCanvas = canvas.getContext('2d')
+const btnUp = document.querySelector('#up').addEventListener('click', function (event) {
+    console.log("Hacia arriba",event);
+})
+const btnLeft = document.querySelector('#left').addEventListener('click', function (event) {
+    console.log("Hacia la izquierda");
+})
+const btnRight = document.querySelector('#right').addEventListener('click', function (event) {
+    console.log("Hacia la derecha");
+})
+const btnDown = document.querySelector('#down').addEventListener('click', function (event) {
+    console.log("Hacia abajo", );
+})
+
+window.addEventListener('keydown', moveByKeys)
 
 let canvasSize 
 let elementsSize
@@ -25,7 +39,7 @@ function startGame () {
     contextoCanvas.font = elementsSize + 'px Verdana' 
     contextoCanvas.textAlign = 'end'
 
-    const map = maps[1]
+    const map = maps[0]
     const mapRows = map.trim().split('\n')
     const mapRowCols = mapRows.map(row => row.trim().split(''))
 
@@ -38,3 +52,18 @@ function startGame () {
         })
      });
 }
+
+function moveByKeys (event) {
+    switch (event.key) {
+        case 'ArrowUp' : console.log('Hacia Arriba')
+        break;
+        case 'ArrowLeft' : console.log('Hacia la Izquierda')
+        break;
+        case 'ArrowRight' : console.log('Hacia la derecha')
+        break;
+        case 'ArrowDown' : console.log('Hacia Abajo')
+        break;
+        default : console.log('Presione las teclas de dirección');
+    }
+}
+
