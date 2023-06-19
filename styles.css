@@ -18,21 +18,18 @@ body {
 }
 .game-container {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 30px;
 }
 .game-container #game {
     border-radius: 5px;
     margin: 10px;
     background-color: var(--background-game);
 }
-.buttons {
-    margin: 10px;
-}
+
 button {
     background-color: var(--buttons);
     margin: 10px;
@@ -45,10 +42,7 @@ button {
     width: 150px;
     height: auto;
     font-size: 2rem;
-    margin: 10px;
     display: flex;
     flex-direction: column;
 }
-.messages p {
-    margin: 5px;
-}
+
