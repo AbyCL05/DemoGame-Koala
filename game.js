@@ -50,16 +50,15 @@ function startGame () {
             const posX = elementsSize * (rowI + 1)
             const posY = elementsSize * (colI + 1)
 
-            if (col == 'O' && playerPosition.x == undefined) {
-                playerPosition.x = posX
-                playerPosition.y = posY
+            if (col == 'O' && !playerPosition.x && !playerPosition.y) {
+                playerPosition.x = posX 
+                playerPosition.y = posY 
             }
-            
+
             contextoCanvas.fillText(emoji, posX + 8, posY - 9)
         })
      });
-
-     movePlayer()
+     contextoCanvas.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
 }
 
 function moveByKeys (event) {
@@ -80,27 +79,45 @@ function moveByKeys (event) {
 /*moveByButtons*/
 
 function moveUp () {
-    playerPosition.y -= elementsSize
-    setCanvasSize ()
+    if ((playerPosition.y - elementsSize) < elementsSize) {
+        console.log('no salgas');
+    } else {
+        playerPosition.y -= elementsSize
+        setCanvasSize()
+    }
     console.log('Arriba');
 }
 function moveLeft () {
-    playerPosition.x -= elementsSize
-    setCanvasSize ()
+    if ((playerPosition.x - elementsSize) < elementsSize) {
+        console.log('no salgas');
+    } else {
+        playerPosition.x -= elementsSize
+        setCanvasSize()
+    }
     console.log('Izquierda');
 }
 function moveRight () {
-    playerPosition.x += elementsSize
-    setCanvasSize ()
+    if((playerPosition.x + elementsSize) > canvasSize) {
+        console.log('no salgas');
+    } else {
+        playerPosition.x += elementsSize
+        setCanvasSize()
+    }
     console.log('Derecha');
 }
 function moveDown () {
-    playerPosition.y += elementsSize
-    setCanvasSize ()
+    if ((playerPosition.y + elementsSize) > canvasSize) {
+        console.log('no salgas');
+    } else {
+        playerPosition.y += elementsSize
+        setCanvasSize()
+    }
     console.log('Abajo');
 }
 
-/*Moving player*/
-function movePlayer () {
-    contextoCanvas.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
-}
+
+
+ /* if (playerPosition.x > canvasSize || playerPosition.y > canvasSize) {
+     playerPosition.x = canvasSize
+     playerPosition.y = canvasSize
+ }*/
