@@ -17,7 +17,13 @@ let elementsSize
 const playerPosition = {
     x: undefined,
     y: undefined, 
-}
+};
+const giftPosition = {
+    x: undefined,
+    y: undefined, 
+};
+
+let enemyPositions = []
 
 window.addEventListener('load', setCanvasSize)
 window.addEventListener('resize', setCanvasSize)
@@ -53,18 +59,25 @@ function startGame () {
             if (col == 'O' && !playerPosition.x && !playerPosition.y) {
                 playerPosition.x = posX 
                 playerPosition.y = posY 
+            } else if (col == 'I') {
+                giftPosition.x = posX
+                giftPosition.y = posY
+            } else if (col == 'X') {
+                enemyPositions.push({
+                    x: posX,
+                    y: posY
+                })
             }
 
             contextoCanvas.fillText(emoji, posX + 8, posY - 9)
         })
      });
-     contextoCanvas.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
+     movePlayer()
 }
 
 function moveByKeys (event) {
     switch (event.key) {
         case 'ArrowUp' : moveUp()
-        console.log(event);
         break;
         case 'ArrowLeft' : moveLeft()
         break;
@@ -113,6 +126,27 @@ function moveDown () {
         setCanvasSize()
     }
     console.log('Abajo');
+}
+
+function movePlayer () {
+    const giftCollisionX = playerPosition.x.toFixed(1) == giftPosition.x.toFixed(1)
+    const giftCollisionY = playerPosition.y.toFixed(1) == giftPosition.y.toFixed(1)
+    const giftCollision = giftCollisionX && giftCollisionY
+    if (giftCollision) {
+        console.log('Colision de jugador y regalo');
+    }
+
+    const enemyCollision = enemyPositions.find(enemy => {
+        const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3)
+        const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3)
+        return enemyCollisionX && enemyCollisionY
+    })
+
+    if (enemyCollision) {
+        console.log('Chocaste con una bomba');
+    }
+
+    contextoCanvas.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
 }
 
 
