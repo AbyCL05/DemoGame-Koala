@@ -39,7 +39,7 @@ button {
     font-family: 'Montserrat', sans-serif;
 }
 .messages {
-    width: 150px;
+    width: auto;
     height: auto;
     font-size: 2rem;
     display: flex;
