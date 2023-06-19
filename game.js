@@ -1,22 +1,23 @@
 const canvas = document.querySelector('#game')
 const contextoCanvas = canvas.getContext('2d')
-const btnUp = document.querySelector('#up').addEventListener('click', function (event) {
-    console.log("Hacia arriba",event);
-})
-const btnLeft = document.querySelector('#left').addEventListener('click', function (event) {
-    console.log("Hacia la izquierda");
-})
-const btnRight = document.querySelector('#right').addEventListener('click', function (event) {
-    console.log("Hacia la derecha");
-})
-const btnDown = document.querySelector('#down').addEventListener('click', function (event) {
-    console.log("Hacia abajo", );
-})
+const btnUp = document.querySelector('#up')
+const btnLeft = document.querySelector('#left')
+const btnRight = document.querySelector('#right')
+const btnDown = document.querySelector('#down')
+btnUp.addEventListener('click', moveUp)
+btnLeft.addEventListener('click', moveLeft)
+btnRight.addEventListener('click', moveRight)
+btnDown.addEventListener('click', moveDown)
 
-window.addEventListener('keydown', moveByKeys)
+document.addEventListener('keydown', moveByKeys)
 
 let canvasSize 
 let elementsSize
+
+const playerPosition = {
+    x: undefined,
+    y: undefined, 
+}
 
 window.addEventListener('load', setCanvasSize)
 window.addEventListener('resize', setCanvasSize)
@@ -36,10 +37,10 @@ function setCanvasSize () {
 }
 
 function startGame () {
-    contextoCanvas.font = elementsSize + 'px Verdana' 
+    contextoCanvas.font = ( elementsSize - 6) + 'px Verdana' 
     contextoCanvas.textAlign = 'end'
 
-    const map = maps[0]
+    const map = maps[2]
     const mapRows = map.trim().split('\n')
     const mapRowCols = mapRows.map(row => row.trim().split(''))
 
@@ -48,22 +49,58 @@ function startGame () {
             const emoji = emojis[col]
             const posX = elementsSize * (rowI + 1)
             const posY = elementsSize * (colI + 1)
-            contextoCanvas.fillText(emoji, posX + 12, posY - 9)
+
+            if (col == 'O' && playerPosition.x == undefined) {
+                playerPosition.x = posX
+                playerPosition.y = posY
+            }
+            
+            contextoCanvas.fillText(emoji, posX + 8, posY - 9)
         })
      });
+
+     movePlayer()
 }
 
 function moveByKeys (event) {
     switch (event.key) {
-        case 'ArrowUp' : console.log('Hacia Arriba')
+        case 'ArrowUp' : moveUp()
+        console.log(event);
         break;
-        case 'ArrowLeft' : console.log('Hacia la Izquierda')
+        case 'ArrowLeft' : moveLeft()
         break;
-        case 'ArrowRight' : console.log('Hacia la derecha')
+        case 'ArrowRight' : moveRight()
         break;
-        case 'ArrowDown' : console.log('Hacia Abajo')
+        case 'ArrowDown' : moveDown()
         break;
         default : console.log('Presione las teclas de dirección');
     }
 }
 
+/*moveByButtons*/
+
+function moveUp () {
+    playerPosition.y -= elementsSize
+    setCanvasSize ()
+    console.log('Arriba');
+}
+function moveLeft () {
+    playerPosition.x -= elementsSize
+    setCanvasSize ()
+    console.log('Izquierda');
+}
+function moveRight () {
+    playerPosition.x += elementsSize
+    setCanvasSize ()
+    console.log('Derecha');
+}
+function moveDown () {
+    playerPosition.y += elementsSize
+    setCanvasSize ()
+    console.log('Abajo');
+}
+
+/*Moving player*/
+function movePlayer () {
+    contextoCanvas.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
+}
