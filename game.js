@@ -13,6 +13,7 @@ document.addEventListener('keydown', moveByKeys)
 
 let canvasSize 
 let elementsSize
+let level = 0
 
 const playerPosition = {
     x: undefined,
@@ -46,9 +47,19 @@ function startGame () {
     contextoCanvas.font = ( elementsSize - 6) + 'px Verdana' 
     contextoCanvas.textAlign = 'end'
 
-    const map = maps[2]
+    const map = maps[level]
+
+    if (!map) {
+        gameWin();
+        return 
+    }
+
     const mapRows = map.trim().split('\n')
     const mapRowCols = mapRows.map(row => row.trim().split(''))
+    
+    enemyPositions = []
+    contextoCanvas.clearRect(0, 0, canvasSize, canvasSize)
+    
 
      mapRowCols.forEach((row, rowI)=> {
         row.forEach((col, colI) => {
@@ -75,6 +86,37 @@ function startGame () {
      movePlayer()
 }
 
+function movePlayer () {
+    const giftCollisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3)
+    const giftCollisionY = playerPosition.y.toFixed(3) == giftPosition.y.toFixed(3)
+    const giftCollision = giftCollisionX && giftCollisionY
+    if (giftCollision) {
+        levelWin()
+    }
+
+    const enemyCollision = enemyPositions.find(enemy => {
+        const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3)
+        const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3)
+        return enemyCollisionX && enemyCollisionY
+    })
+
+    if (enemyCollision) {
+        console.log('Chocaste con un bomba');
+    }
+
+    contextoCanvas.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
+}
+
+function levelWin() {
+    console.log(`Terminaste el mapa ${level + 1}`);
+    level++
+    startGame()
+}
+
+function gameWin() {
+    console.log('Terminaste');
+}
+
 function moveByKeys (event) {
     switch (event.key) {
         case 'ArrowUp' : moveUp()
@@ -92,11 +134,11 @@ function moveByKeys (event) {
 /*moveByButtons*/
 
 function moveUp () {
-    if ((playerPosition.y - elementsSize) < elementsSize) {
-        console.log('no salgas');
+    if (Math.ceil(playerPosition.y - elementsSize) <  elementsSize) {
+        console.log('No te salgas');
     } else {
         playerPosition.y -= elementsSize
-        setCanvasSize()
+        startGame()
     }
     console.log('Arriba');
 }
@@ -128,30 +170,11 @@ function moveDown () {
     console.log('Abajo');
 }
 
-function movePlayer () {
-    const giftCollisionX = playerPosition.x.toFixed(1) == giftPosition.x.toFixed(1)
-    const giftCollisionY = playerPosition.y.toFixed(1) == giftPosition.y.toFixed(1)
-    const giftCollision = giftCollisionX && giftCollisionY
-    if (giftCollision) {
-        console.log('Colision de jugador y regalo');
-    }
 
-    const enemyCollision = enemyPositions.find(enemy => {
-        const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3)
-        const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3)
-        return enemyCollisionX && enemyCollisionY
-    })
-
-    if (enemyCollision) {
-        console.log('Chocaste con una bomba');
-    }
-
-    contextoCanvas.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
-}
 
 
 
  /* if (playerPosition.x > canvasSize || playerPosition.y > canvasSize) {
-     playerPosition.x = canvasSize
-     playerPosition.y = canvasSize
+     playerPosition.x = posX
+     playerPosition.y = posY
  }*/
