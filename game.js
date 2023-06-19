@@ -4,6 +4,7 @@ const btnUp = document.querySelector('#up')
 const btnLeft = document.querySelector('#left')
 const btnRight = document.querySelector('#right')
 const btnDown = document.querySelector('#down')
+const spanLives = document.querySelector('#lives')
 btnUp.addEventListener('click', moveUp)
 btnLeft.addEventListener('click', moveLeft)
 btnRight.addEventListener('click', moveRight)
@@ -58,10 +59,10 @@ function startGame () {
 
     const mapRows = map.trim().split('\n')
     const mapRowCols = mapRows.map(row => row.trim().split(''))
-    
+
+    showLives()
     enemyPositions = []
     contextoCanvas.clearRect(0, 0, canvasSize, canvasSize)
-    
 
      mapRowCols.forEach((row, rowI)=> {
         row.forEach((col, colI) => {
@@ -127,6 +128,11 @@ function levelFail () {
 }
 function gameWin() {
     console.log('Terminaste');
+}
+
+function showLives () {
+    const heartsLives = Array(lives).fill(emojis['HEART'])
+    spanLives.innerHTML = heartsLives.join('') 
 }
 
 function moveByKeys (event) {
