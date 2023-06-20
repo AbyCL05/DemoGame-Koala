@@ -5,6 +5,8 @@ const btnLeft = document.querySelector('#left')
 const btnRight = document.querySelector('#right')
 const btnDown = document.querySelector('#down')
 const spanLives = document.querySelector('#lives')
+const spanTime = document.querySelector('#time')
+
 btnUp.addEventListener('click', moveUp)
 btnLeft.addEventListener('click', moveLeft)
 btnRight.addEventListener('click', moveRight)
@@ -16,6 +18,10 @@ let canvasSize
 let elementsSize
 let level = 0
 let lives = 3
+
+let timeStart
+let timePlayer
+let timeInterval
 
 
 const playerPosition = {
@@ -55,6 +61,11 @@ function startGame () {
     if (!map) {
         gameWin();
         return 
+    }
+
+    if (!timeStart) {
+        timeStart = Date.now()
+        timeInterval = setInterval(showTime, 100)
     }
 
     const mapRows = map.trim().split('\n')
@@ -121,6 +132,7 @@ function levelFail () {
     if (lives <= 0) {
         level = 0
         lives = 3
+        timeStart = undefined
     }
     playerPosition.x = undefined
     playerPosition.y = undefined
@@ -128,11 +140,16 @@ function levelFail () {
 }
 function gameWin() {
     console.log('Terminaste');
+    clearInterval(timeInterval)
 }
 
 function showLives () {
     const heartsLives = Array(lives).fill(emojis['HEART'])
     spanLives.innerHTML = heartsLives.join('') 
+}
+
+function showTime () {
+    spanTime.innerHTML = Date.now() - timeStart
 }
 
 function moveByKeys (event) {
@@ -187,12 +204,3 @@ function moveDown () {
     }
     console.log('Abajo');
 }
-
-
-
-
-
- /* if (playerPosition.x > canvasSize || playerPosition.y > canvasSize) {
-     playerPosition.x = posX
-     playerPosition.y = posY
- }*/
