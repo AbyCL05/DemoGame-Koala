@@ -66,6 +66,7 @@ function startGame () {
     const map = maps[level]
 
     if (!map) {
+        clearInterval(timeInterval)
         gameWin();
         return 
     }
@@ -141,14 +142,14 @@ function levelFail () {
         level = 0
         lives = 3
         timeStart = undefined
+        clearInterval(timeInterval)
     }
     playerPosition.x = undefined
     playerPosition.y = undefined
     startGame()
 }
 function gameWin() {
-    console.log('Terminaste');
-    clearInterval(timeInterval)
+    console.log('Terminaste')
     records()
 }
 
@@ -160,6 +161,7 @@ function records () {
         if (recordTime >= playerTime) {
             localStorage.setItem('record_time', playerTime)
             pResult.innerHTML = 'Superaste el record!!!'
+            clearInterval(timeInterval)
         } else {
             pResult.innerHTML = 'No superaste el record'
         }
@@ -175,13 +177,27 @@ function showLives () {
 }
 
 function showTime () {
-    spanTime.innerHTML = Date.now() - timeStart
+    spanTime.innerHTML = timer(Date.now() - timeStart)
 }
 
 function showRecord () {
     record.innerHTML = localStorage.getItem('record_time')
 }
 
+function timer (ms) {
+    const cs = parseInt(ms/10) % 100
+    const seg = parseInt(ms/1000) % 60
+    const min = parseInt(ms/60000) % 60
+
+    const strCs = `${cs}`.padStart(2, '0')
+    const strSeg = `${seg}`.padStart(2, '0')
+    const strMin = `${min}`.padStart(2, '0')
+
+    return `${strMin}:${strSeg}:${strCs}`
+}
+
+
+//Mover por botones o teclas
 function moveByKeys (event) {
     switch (event.key) {
         case 'ArrowUp' : moveUp()
@@ -195,9 +211,6 @@ function moveByKeys (event) {
         default : console.log('Presione las teclas de dirección');
     }
 }
-
-/*moveByButtons*/
-
 function moveUp () {
     if (Math.ceil(playerPosition.y - elementsSize) <  elementsSize) {
         console.log('No te salgas');
