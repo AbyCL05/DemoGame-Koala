@@ -8,12 +8,18 @@ const spanLives = document.querySelector('#lives')
 const spanTime = document.querySelector('#time')
 const record = document.querySelector('#record')
 const pResult = document.querySelector('#result')
+const btnStart = document.querySelector('#start')
+const btnRestart = document.querySelector('#restart')
 
 
 btnUp.addEventListener('click', moveUp)
 btnLeft.addEventListener('click', moveLeft)
 btnRight.addEventListener('click', moveRight)
 btnDown.addEventListener('click', moveDown)
+btnStart.addEventListener('click', startTimer)
+btnRestart.addEventListener('click', _ => {
+    location.reload()
+})
 
 document.addEventListener('keydown', moveByKeys)
 
@@ -22,7 +28,7 @@ let elementsSize
 let level = 0
 let lives = 3
 
-let timeStart
+let timeStart 
 let timePlayer
 let timeInterval
 
@@ -59,6 +65,15 @@ function setCanvasSize () {
      startGame()
 }
 
+function startTimer() {
+    if (!timeStart) {
+        timeStart = Date.now();
+        timeInterval = setInterval(showTime, 100);
+        showRecord();
+        startGame()
+    }
+}
+
 function startGame () {
     contextoCanvas.font = ( elementsSize - 8) + 'px Verdana' 
     contextoCanvas.textAlign = 'end'
@@ -69,12 +84,6 @@ function startGame () {
         clearInterval(timeInterval)
         gameWin();
         return 
-    }
-
-    if (!timeStart) {
-        timeStart = Date.now();
-        timeInterval = setInterval(showTime, 100);
-        showRecord();
     }
 
     const mapRows = map.trim().split('\n')
@@ -104,7 +113,7 @@ function startGame () {
                     y: posY
                 })
             }
-            contextoCanvas.fillText(emoji, posX , posY - 5)
+            contextoCanvas.fillText(emoji, posX + 4 , posY - 10)
         })
      });
      movePlayer()
@@ -125,7 +134,7 @@ function movePlayer () {
     })
 
     if (enemyCollision) {
-        console.log('Chocaste con un bomba');
+        console.log('El oso te comió');
         levelFail()
     }
     contextoCanvas.fillText(emojis['PLAYER'], playerPosition.x , playerPosition.y - 3)
@@ -181,7 +190,7 @@ function showTime () {
 }
 
 function showRecord () {
-    record.innerHTML = localStorage.getItem('record_time')
+    record.innerHTML = timer(localStorage.getItem('record_time'))
 }
 
 function timer (ms) {
@@ -218,16 +227,14 @@ function moveUp () {
         playerPosition.y -= elementsSize
         startGame()
     }
-    console.log('Arriba');
 }
 function moveLeft () {
     if (Math.ceil(playerPosition.x - elementsSize) < elementsSize) {
-        console.log({ playerPosition, elementsSize});
+        console.log('');
     } else {
         playerPosition.x -= elementsSize
         startGame()
     }
-    console.log('Izquierda');
 }
 function moveRight () {
     if(Math.ceil(playerPosition.x + elementsSize) > canvasSize) {
@@ -236,7 +243,6 @@ function moveRight () {
         playerPosition.x += elementsSize
         startGame()
     }
-    console.log('Derecha');
 }
 function moveDown () {
     if (Math.ceil(playerPosition.y + elementsSize) > canvasSize) {
@@ -245,5 +251,4 @@ function moveDown () {
         playerPosition.y += elementsSize
         startGame()
     }
-    console.log('Abajo');
 }

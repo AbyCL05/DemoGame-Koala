@@ -7,15 +7,23 @@ html {
     font-size: 62.5%;
 }
 :root {
-    --background: #2C3333;
-    --background-game: #2E4F4F;
-    --buttons: #0E8388;
+    --background: black;
+    --background-game: #537636;
+    --buttons: #315f0c;
 }
 
 body {
     background-color: var(--background);
     font-family: 'Montserrat', sans-serif;
+    position: relative;
 }
+.back-elements {
+    position: absolute;
+    width: auto;
+    height: 50px;
+    background-color: blueviolet;   
+}
+
 .game-container {
     width: 100%;
     height: 100%;
@@ -26,10 +34,10 @@ body {
 }
 .game-container #game {
     border-radius: 5px;
+    border: solid 2px;
     margin: 10px;
     background-color: var(--background-game);
 }
-
 button {
     background-color: var(--buttons);
     margin: 10px;
@@ -38,11 +46,28 @@ button {
     border-radius: 8px;
     font-family: 'Montserrat', sans-serif;
 }
+.buttons {
+    display: flex;
+    padding: 5px;
+}
+.star-restart {
+    flex-direction: column;
+}
+
 .messages {
     width: auto;
     height: auto;
     font-size: 2rem;
     display: flex;
     flex-direction: column;
+    background-color: rgb(53, 139, 53);
+    border-radius: 10px;
+
+}
+
+.messages p {
+    width: 300px;
+    padding-left: 5px;
+    font-weight: 15px; 
 }
 
