@@ -10,6 +10,11 @@ const record = document.querySelector('#record')
 const pResult = document.querySelector('#result')
 const btnStart = document.querySelector('#start')
 const btnRestart = document.querySelector('#restart')
+const infoDesktop = document.querySelector('.instrucion')
+const buttonStartDesktop = document.querySelector('.start-desktop')
+const buttonRestartDesktop = document.querySelector('.restart-desktop')
+
+
 
 
 btnUp.addEventListener('click', moveUp)
@@ -19,7 +24,14 @@ btnDown.addEventListener('click', moveDown)
 btnStart.addEventListener('click', startTimer)
 btnRestart.addEventListener('click', _ => {
     location.reload()
+    showRecord()
 })
+buttonStartDesktop.addEventListener('click', startTimer)
+buttonRestartDesktop.addEventListener('click', () => {
+    location.reload()
+    showRecord()
+})
+
 
 document.addEventListener('keydown', moveByKeys)
 
@@ -46,6 +58,13 @@ let enemyPositions = []
 
 window.addEventListener('load', setCanvasSize)
 window.addEventListener('resize', setCanvasSize)
+if (window.innerWidth <= 1000) {
+    infoDesktop.classList.add('inactive')
+}
+
+function fixNumber (n) {
+    return Number(n.toFixed(2))
+}
 
 function setCanvasSize () {
     if(window.innerHeight > window.innerWidth) {
@@ -69,7 +88,6 @@ function startTimer() {
     if (!timeStart) {
         timeStart = Date.now();
         timeInterval = setInterval(showTime, 100);
-        showRecord();
         startGame()
     }
 }
@@ -85,24 +103,26 @@ function startGame () {
         gameWin();
         return 
     }
+    showRecord()
 
     const mapRows = map.trim().split('\n')
     const mapRowCols = mapRows.map(row => row.trim().split(''))
 
     showLives()
+    
     enemyPositions = []
     contextoCanvas.clearRect(0, 0, canvasSize, canvasSize)
 
      mapRowCols.forEach((row, rowI)=> {
         row.forEach((col, colI) => {
             const emoji = emojis[col]
-            const posX = elementsSize * (rowI + 1)
-            const posY = elementsSize * (colI + 1)
+            const posX = elementsSize * (colI + 1)
+            const posY = elementsSize * (rowI+ 1)
 
             if (col == 'O') {
                 if (!playerPosition.x && !playerPosition.y) {
-                playerPosition.x = posX 
-                playerPosition.y = posY 
+                    playerPosition.x = posX 
+                    playerPosition.y = posY 
                 }
             } else if (col == 'I') {
                 giftPosition.x = posX
@@ -113,23 +133,23 @@ function startGame () {
                     y: posY
                 })
             }
-            contextoCanvas.fillText(emoji, posX + 4 , posY - 10)
+            contextoCanvas.fillText(emoji, posX -2 , posY - 8 )
         })
      });
      movePlayer()
 }
 
 function movePlayer () {
-    const giftCollisionX = playerPosition.x.toFixed(0) == giftPosition.x.toFixed(0)
-    const giftCollisionY = playerPosition.y.toFixed(0)== giftPosition.y.toFixed(0)
-    const giftCollision = giftCollisionX && giftCollisionY
+    const giftCollisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3)
+    const giftCollisionY = playerPosition.y.toFixed(3)== giftPosition.y.toFixed(3)
+    const giftCollision = giftCollisionX && giftCollisionY;
     if (giftCollision) {
         levelWin()
     }
 
     const enemyCollision = enemyPositions.find(enemy => {
-        const enemyCollisionX = enemy.x.toFixed(0) == playerPosition.x.toFixed(0)
-        const enemyCollisionY = enemy.y.toFixed(0) == playerPosition.y.toFixed(0)
+        const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3)
+        const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3)
         return enemyCollisionX && enemyCollisionY
     })
 
@@ -190,7 +210,7 @@ function showTime () {
 }
 
 function showRecord () {
-    record.innerHTML = timer(localStorage.getItem('record_time'))
+        record.innerHTML = timer(localStorage.getItem('record_time'))
 }
 
 function timer (ms) {

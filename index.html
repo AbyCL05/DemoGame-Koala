@@ -10,29 +10,32 @@
     <title>Videogame</title>
 </head>
 <body>
-    <div class="back-elements first"></div>
+    <!-- <div class="back-elements first"></div>
     <div class="back-elements second"></div>
     <div class="back-elements thrid"></div>
     <div class="back-elements fourth"></div>
-    <div class="back-elements fifth"></div>
+    <div class="back-elements fifth"></div> -->
     <div class="game-container sixth">
+        <div class="messages">
+            <p>Vidas: <span id="lives"></span></p>
+            <p>Record 🏁: <span id="record"></span></p>
+            <p>Tiempo⏱: <span id="time"></span></p>
+            <p id="result"></p>
+        </div>
         <canvas id="game"></canvas>
-        <div class="buttons">
+        <section class="buttons">
             <button id="up">Arriba</button>
             <button id="left">Izquierda</button>
             <button id="right">Derecha</button>
             <button id="down">Abajo</button>
-        </div>
-        <div class="star-restart">
             <button id="start">Iniciar</button>
            <button id="restart">Reiniciar</butto>
-        </div>
+        </section>
+        <div class="instrucion">
+            <p>Juega con tus teclas</p>
+            <button class="start-desktop">Iniciar</button>
+            <button class="restart-desktop">Reiniciar</button>
 
-        <div class="messages">
-            <p>Vidas: <span id="lives"></span></p>
-            <p>Tiempo⏱: <span id="time"></span></p>
-            <p>Record 🏁: <span id="record"></span></p>
-            <p id="result"></p>
         </div>
     </div>
 
